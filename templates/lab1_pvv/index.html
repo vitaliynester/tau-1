@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+          crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+            integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"></script>
+    <script src="{% static 'lab1_pvv/script.js' %}"></script>
+    <title>Объемное планирование деятельности предприятия</title>
+</head>
+<body>
+<div class="container">
+
+    <div class="mt-5 d-flex justify-content-around">
+        <button id="btn-test-1" type="button" class="btn btn-primary">Тест №1</button>
+        <button id="btn-test-2" type="button" class="btn btn-primary">Тест №2</button>
+        <button id="btn-test-3" type="button" class="btn btn-primary">Тест №3</button>
+    </div>
+
+    <div class="mt-3 w-100">
+        <div class="input-group mb-3">
+            <span class="input-group-text">Количество видов продукции: </span>
+            <input id="product_cnt" class="form-control" placeholder="1"/>
+        </div>
+
+        <div class="input-group mb-3">
+            <span class="input-group-text">Количество специальностей рабочих: </span>
+            <input id="worker_cnt" class="form-control" placeholder="1"/>
+        </div>
+
+        <div class="input-group mb-3">
+            <span class="input-group-text">Количество видов сырья: </span>
+            <input id="material_cnt" class="form-control" placeholder="1"/>
+        </div>
+
+        <div class="input-group mb-3">
+            <span class="input-group-text">Количество ассортиментных групп: </span>
+            <input id="group_cnt" class="form-control" placeholder="1"/>
+        </div>
+
+        <div class="input-group mb-3">
+            <span class="input-group-text">Количество видов оборудования: </span>
+            <input id="equipment_cnt" class="form-control" placeholder="1"/>
+        </div>
+
+        <div class="input-group mb-3">
+            <span class="input-group-text">Фонд заработной платы: </span>
+            <input id="salary_cnt" class="form-control" placeholder="1"/>
+        </div>
+
+        <button id="btn-create-table" type="button" class="btn btn-primary w-100">Сформировать таблицы</button>
+
+        <button id="btn-calculate" type="button" class="btn btn-primary w-100 mt-3 mb-3">Рассчитать</button>
+
+    </div>
+
+    <div class="mt-5 w-100">
+        <div class="h4">Значимость критериев</div>
+
+        <table class="table table-striped w-100">
+            <thead>
+            <tr class="text-center">
+                <th scope="col">Максимизация выпуска</th>
+                <th scope="col">Минимизация себестоимости</th>
+                <th scope="col">Максимизация прибыли</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="text-center">
+                <td><input id="max-output" type="text" class="form-control text-center" placeholder="0"></td>
+                <td><input id="min-cost" type="text" class="form-control text-center" placeholder="0"></td>
+                <td><input id="max-profit" type="text" class="form-control text-center" placeholder="0"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="mt-3 w-100">
+        <div class="h4">Продукция</div>
+
+        <table id="product-table" class="table table-striped w-100">
+            <thead>
+            <tr class="text-center">
+                <th scope="col" class="align-middle">Наименование продукции</th>
+                <th scope="col" class="align-middle">Минимальное ограничение</th>
+                <th scope="col" class="align-middle">Максимальное ограничение</th>
+                <th scope="col" class="align-middle">Цена</th>
+                <th scope="col" class="align-middle">Себестоимость</th>
+                <th scope="col" class="align-middle">Отвечающая группа (номер)</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="text-center">
+                <td><input type="text" disabled class="form-control text-center" placeholder="Продукт 1"></td>
+                <td><input class="form-control text-center" placeholder="0"></td>
+                <td><input class="form-control text-center" placeholder="0"></td>
+                <td><input class="form-control text-center" placeholder="0"></td>
+                <td><input class="form-control text-center" placeholder="0"></td>
+                <td><input class="form-control text-center" placeholder="0"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="mt-3 w-100">
+        <div class="h4">Рабочий</div>
+
+        <table id="worker-table" class="table table-striped w-100">
+            <thead>
+            <tr class="text-center">
+                <th scope="col" class="align-middle">Имя</th>
+                <th scope="col" class="align-middle">Заработная плата</th>
+                <th scope="col" class="align-middle">Время работы</th>
+                <th scope="col" class="align-middle">Трудозатраты на продукт 1</th>
+                <th scope="col" class="align-middle">Трудозатраты на продукт 2</th>
+                <th scope="col" class="align-middle">Трудозатраты на продукт 3</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="text-center">
+                <td><input type="text" disabled class="form-control text-center" placeholder="Рабочий 1"></td>
+                <td><input class="form-control text-center" placeholder="0"></td>
+                <td><input class="form-control text-center" placeholder="0"></td>
+                <td><input class="form-control text-center" placeholder="0"></td>
+                <td><input class="form-control text-center" placeholder="0"></td>
+                <td><input class="form-control text-center" placeholder="0"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="mt-3 w-100">
+        <div class="h4">Сырье</div>
+
+        <table id="raw-material-table" class="table table-striped w-100">
+            <thead>
+            <tr class="text-center">
+                <th scope="col" class="align-middle">Название</th>
+                <th scope="col" class="align-middle">Ресурс</th>
+                <th scope="col" class="align-middle">Расходы на продукт 1</th>
+                <th scope="col" class="align-middle">Расходы на продукт 2</th>
+                <th scope="col" class="align-middle">Расходы на продукт 3</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="text-center">
+                <td><input type="text" disabled class="form-control text-center" placeholder="Сырье 1"></td>
+                <td><input class="form-control text-center" placeholder="0"></td>
+                <td><input class="form-control text-center" placeholder="0"></td>
+                <td><input class="form-control text-center" placeholder="0"></td>
+                <td><input class="form-control text-center" placeholder="0"></td>
+            </tr>
+
+            </tbody>
+        </table>
+    </div>
+
+    <div class="mt-3 w-100">
+        <div class="h4">Ассортиментная группа</div>
+
+        <table id="group-table" class="table table-striped w-100">
+            <thead>
+            <tr class="text-center">
+                <th scope="col" class="align-middle">Название</th>
+                <th scope="col" class="align-middle">Минимальный объем</th>
+                <th scope="col" class="align-middle">Максимальный объем</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="text-center">
+                <td><input type="text" disabled class="form-control text-center" placeholder="Группа 1"></td>
+                <td><input class="form-control text-center" placeholder="0"></td>
+                <td><input class="form-control text-center" placeholder="0"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="mt-3 w-100">
+        <div class="h4">Оборудование</div>
+
+        <table id="equipment-table" class="table table-striped w-100">
+            <thead>
+            <tr class="text-center">
+                <th scope="col" class="align-middle">Название</th>
+                <th scope="col" class="align-middle">Ресурс</th>
+                <th scope="col" class="align-middle">Затраты времени на продукт 1</th>
+                <th scope="col" class="align-middle">Затраты времени на продукт 2</th>
+                <th scope="col" class="align-middle">Затраты времени на продукт 3</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="text-center">
+                <td><input type="text" disabled class="form-control text-center" placeholder="Оборудование 1"></td>
+                <td><input class="form-control text-center" placeholder="0"></td>
+                <td><input class="form-control text-center" placeholder="0"></td>
+                <td><input class="form-control text-center" placeholder="0"></td>
+                <td><input class="form-control text-center" placeholder="0"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="mt-3 w-100">
+        <div class="h4">Результат</div>
+
+        <table id="result-table" class="table table-striped w-100">
+            <thead>
+            <tr class="text-center">
+                <th scope="col" class="align-middle">Название</th>
+                <th scope="col" class="align-middle">Максимизация прибыли в денежном выражении</th>
+                <th scope="col" class="align-middle">Минимизация себестоимости</th>
+                <th scope="col" class="align-middle">Максимизация прибыли</th>
+                <th scope="col" class="align-middle">Компромиссный вариант</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="text-center">
+                <td><input disabled type="text" class="form-control text-center" placeholder="Ресурс 1"></td>
+                <td><input disabled class="form-control text-center" placeholder="0"></td>
+                <td><input disabled class="form-control text-center" placeholder="0"></td>
+                <td><input disabled class="form-control text-center" placeholder="0"></td>
+                <td><input disabled class="form-control text-center" placeholder="0"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+</body>
+</html>
