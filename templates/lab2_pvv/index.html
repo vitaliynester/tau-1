@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+          crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+            integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"></script>
+    <script src="{% static 'lab2_pvv/script.js' %}"></script>
+    <title>Сетевое планирование проекта с учетом вероятностного времени выполнения отдельных работ</title>
+</head>
+<body>
+<div class="container">
+
+    <div class="mt-5 d-flex justify-content-between">
+        <button id="btn-test-1" type="button" class="btn btn-primary">Тест №1</button>
+        <button id="btn-test-2" type="button" class="btn btn-primary">Тест №2</button>
+        <button id="btn-test-3" type="button" class="btn btn-primary">Тест №3</button>
+        <button id="btn-test-4" type="button" class="btn btn-primary">Тест №4</button>
+        <button id="btn-test-5" type="button" class="btn btn-primary">Тест №5</button>
+        <button id="btn-test-6" type="button" class="btn btn-primary">Тест №6</button>
+    </div>
+
+    <div class="mt-3 w-100">
+
+        <div class="form-group mb-3">
+            <label for="system_criteria">Оценка системы:</label>
+            <select class="form-control" id="system_criteria">
+              <option id="system_criteria_2" value="2">Двухоценочная</option>
+              <option id="system_criteria_3" value="3">Трехоценочная</option>
+            </select>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-md-6">
+              <label>Количество событий:</label>
+              <input class="form-control" id="event_cnt" placeholder="1">
+            </div>
+            <div class="form-group col-md-6">
+              <label for="inputPassword4">Количество работ:</label>
+              <input class="form-control" id="work_cnt" placeholder="1">
+            </div>
+          </div>
+
+        <button id="btn-create-table" type="button" class="btn btn-primary w-100">Сформировать таблицы</button>
+
+        <button id="btn-calculate" type="button" class="btn btn-primary w-100 mt-3 mb-3">Рассчитать</button>
+
+    </div>
+
+    <div class="mt-5 w-100">
+        <div class="h4">Работа</div>
+
+        <table id="work-table" class="table table-striped w-100">
+            <thead>
+            <tr class="text-center">
+                <th scope="col" class="align-middle">Название</th>
+                <th scope="col" class="align-middle">Начало</th>
+                <th scope="col" class="align-middle">Конец</th>
+                <th scope="col" class="align-middle">Оптимальное</th>
+                <th scope="col" class="align-middle">Пессимистическое</th>
+                <th scope="col" class="align-middle">Вероятное</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="text-center">
+                <td><input type="text" disabled class="form-control text-center" placeholder="Работа 1"></td>
+                <td><input class="form-control text-center" placeholder="0"></td>
+                <td><input class="form-control text-center" placeholder="0"></td>
+                <td><input class="form-control text-center" placeholder="0"></td>
+                <td><input class="form-control text-center" placeholder="0"></td>
+                <td><input class="form-control text-center" disabled placeholder="0"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="mt-3 w-100">
+        <div class="h4">Событие</div>
+
+        <table id="event-table" class="table table-striped w-100">
+            <thead>
+            <tr class="text-center">
+                <th scope="col" class="align-middle">Название</th>
+                <th scope="col" class="align-middle">Директивный срок</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="text-center">
+                <td><input type="text" disabled class="form-control text-center" placeholder="Событие 1"></td>
+                <td><input class="form-control text-center" placeholder="0"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+    <div class="mt-5 w-100 h4">Результат:</div>
+    <div class="mt-3 w-100">
+        <div class="h4">Параметры событий:</div>
+
+        <table id="result-table-events" class="table table-striped w-100">
+            <thead>
+            <tr class="text-center">
+                <th scope="col" class="align-middle">Название</th>
+                <th scope="col" class="align-middle">Tdir</th>
+                <th scope="col" class="align-middle">Tр</th>
+                <th scope="col" class="align-middle">Tп</th>
+                <th scope="col" class="align-middle">Dp</th>
+                <th scope="col" class="align-middle">P(Tp < Td)</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="text-center">
+                <td><input disabled type="text" class="form-control text-center" placeholder="Событие 1"></td>
+                <td><input disabled class="form-control text-center" placeholder="0"></td>
+                <td><input disabled class="form-control text-center" placeholder="0"></td>
+                <td><input disabled class="form-control text-center" placeholder="0"></td>
+                <td><input disabled class="form-control text-center" placeholder="0"></td>
+                <td><input disabled class="form-control text-center" placeholder="0"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="mt-3 w-100">
+        <div class="h4">Параметры работ:</div>
+
+        <table id="result-table-work" class="table table-striped w-100">
+            <thead>
+            <tr class="text-center">
+                <th scope="col" class="align-middle">Номер</th>
+                <th scope="col" class="align-middle">Тож</th>
+                <th scope="col" class="align-middle">Dож</th>
+                <th scope="col" class="align-middle">Трн</th>
+                <th scope="col" class="align-middle">Тро</th>
+                <th scope="col" class="align-middle">Тпн</th>
+                <th scope="col" class="align-middle">Тпо</th>
+                <th scope="col" class="align-middle">Pп</th>
+                <th scope="col" class="align-middle">P'</th>
+                <th scope="col" class="align-middle">P"</th>
+                <th scope="col" class="align-middle">Pнез</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="text-center">
+                <td><input disabled type="text" class="form-control text-center" placeholder="№1"></td>
+                <td><input disabled class="form-control text-center" placeholder="0"></td>
+                <td><input disabled class="form-control text-center" placeholder="0"></td>
+                <td><input disabled class="form-control text-center" placeholder="0"></td>
+                <td><input disabled class="form-control text-center" placeholder="0"></td>
+                <td><input disabled class="form-control text-center" placeholder="0"></td>
+                <td><input disabled class="form-control text-center" placeholder="0"></td>
+                <td><input disabled class="form-control text-center" placeholder="0"></td>
+                <td><input disabled class="form-control text-center" placeholder="0"></td>
+                <td><input disabled class="form-control text-center" placeholder="0"></td>
+                <td><input disabled class="form-control text-center" placeholder="0"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="mt-3 w-100">
+        <div class="h4">Резервы времени:</div>
+
+        <table id="result-table-time" class="table table-striped w-100">
+            <thead>
+            <tr class="text-center">
+                <th scope="col" class="align-middle">Номера событий полного пути</th>
+                <th scope="col" class="align-middle">Полный резерв времени</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="text-center">
+                <td><input disabled class="form-control text-center" placeholder="0"></td>
+                <td><input disabled class="form-control text-center" placeholder="0"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="mt-3 w-100">
+        <div class="h4">Диаграмма Ганта:</div>
+
+        <div id="gantt"></div>
+    </div>
+
+</div>
+</body>
+</html>
