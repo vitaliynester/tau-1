@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+          crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+            integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"></script>
+    <script src="{% static 'lab4_pvv/script.js' %}"></script>
+    <title>Расчет параметров МТС организации</title>
+</head>
+<body>
+<div class="pl-5 pr-5 pt-1 pb-1">
+
+    <div class="mt-5 d-flex justify-content-between">
+        <button id="btn-test-1" type="button" class="btn btn-primary">Тест №1</button>
+        <button id="btn-test-2" type="button" class="btn btn-primary">Тест №2</button>
+    </div>
+
+    <div class="mt-3 w-100">
+
+        <div class="form-group mb-3">
+            <div class="input-group mb-3">
+                <span class="input-group-text">Расходы связанные с доставкой:</span>
+                <input id="cd" type="text" class="form-control" placeholder="1000">
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text">Затраты на хранение единицы продукции в единицу времени:</span>
+                <input id="cx" type="text" class="form-control" placeholder="1000">
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text">Затраты на единицу ресурса в единицу времени в связи с неудовлетворенным спросом:</span>
+                <input id="cy" type="text" class="form-control" placeholder="1000">
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text">Интервал времени:</span>
+                <input id="t" type="text" class="form-control" placeholder="1000">
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text">Потребность в материале:</span>
+                <input id="w" type="text" class="form-control" placeholder="1000">
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text">Время выполнения заказа:</span>
+                <input id="dt" type="text" class="form-control" placeholder="1000">
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text">Стоимость единицы запаса:</span>
+                <input id="cp" type="text" class="form-control" placeholder="1000">
+            </div>
+
+            <div class="input-group mb-3">
+                <span class="input-group-text">Коэффициент скидки:</span>
+                <input id="discountPerc" type="text" class="form-control" placeholder="Процент срабатывания">
+                <input id="discountValue" type="text" class="form-control" placeholder="Порог размера скидки">
+                <button id="btnAddDiscount" class="btn btn-outline-secondary" type="button">Добавить</button>
+            </div>
+        </div>
+
+        <button id="btn-calculate" type="button" class="btn btn-primary w-100 mt-3 mb-3">Рассчитать</button>
+
+    </div>
+
+    <div class="mt-5 w-100">
+        <div class="h4">Исходные данные</div>
+
+        <table id="discount-table" class="table table-striped w-100">
+            <thead>
+            <tr class="text-center">
+                <th scope="col" class="align-middle">Коэффициент скидки</th>
+                <th scope="col" class="align-middle">Процент срабатывания</th>
+                <th scope="col" class="align-middle">Размер скидки</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+    </div>
+
+    <div class="mt-5 w-100 h4">Результат расчета:</div>
+    <div class="mt-3 w-100">
+        <table id="result-table" class="table table-striped w-100">
+            <thead>
+            <tr class="text-center">
+                <th scope="col" class="align-middle">№</th>
+                <th scope="col" class="align-middle">M</th>
+                <th scope="col" class="align-middle">Q’</th>
+                <th scope="col" class="align-middle">p</th>
+                <th scope="col" class="align-middle">ТЗ</th>
+                <th scope="col" class="align-middle">P</th>
+                <th scope="col" class="align-middle">t’</th>
+                <th scope="col" class="align-middle">N</th>
+                <th scope="col" class="align-middle">Sx</th>
+                <th scope="col" class="align-middle">Sд</th>
+                <th scope="col" class="align-middle">Sп</th>
+                <th scope="col" class="align-middle">Sy</th>
+                <th scope="col" class="align-middle">S</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="text-center">
+                <td><input disabled type="text" class="form-control text-center" placeholder="1"></td>
+                <td><input disabled class="form-control text-center" placeholder="0"></td>
+                <td><input disabled class="form-control text-center" placeholder="0"></td>
+                <td><input disabled class="form-control text-center" placeholder="0"></td>
+                <td><input disabled class="form-control text-center" placeholder="0"></td>
+                <td><input disabled class="form-control text-center" placeholder="0"></td>
+                <td><input disabled class="form-control text-center" placeholder="0"></td>
+                <td><input disabled class="form-control text-center" placeholder="0"></td>
+                <td><input disabled class="form-control text-center" placeholder="0"></td>
+                <td><input disabled class="form-control text-center" placeholder="0"></td>
+                <td><input disabled class="form-control text-center" placeholder="0"></td>
+                <td><input disabled class="form-control text-center" placeholder="0"></td>
+                <td><input disabled class="form-control text-center" placeholder="0"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="mt-3 w-100">
+        <div class="h4">Диаграмма:</div>
+
+        <div id="gantt"></div>
+    </div>
+
+</div>
+</body>
+</html>
