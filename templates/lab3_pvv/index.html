@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+          crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+            integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"></script>
+    <script src="{% static 'lab3_pvv/script.js' %}"></script>
+    <title>Решение задачи Джонсона</title>
+</head>
+<body>
+<div class="container">
+
+    <div class="mt-5 d-flex justify-content-between">
+        <button id="btn-test-1" type="button" class="btn btn-primary">Тест №1</button>
+        <button id="btn-test-2" type="button" class="btn btn-primary">Тест №2</button>
+        <button id="btn-test-3" type="button" class="btn btn-primary">Тест №3</button>
+        <button id="btn-test-4" type="button" class="btn btn-primary">Тест №4</button>
+        <button id="btn-test-5" type="button" class="btn btn-primary">Тест №5</button>
+        <button id="btn-test-6" type="button" class="btn btn-primary">Тест №6</button>
+        <button id="btn-test-7" type="button" class="btn btn-primary">Тест №7</button>
+    </div>
+
+    <div class="mt-3 w-100">
+
+        <div class="form-group mb-3">
+            <div class="form-row">
+                <label class="col-2" for="system_criteria">Количество агрегатов:</label>
+                <div class="col-10">
+                    <select class="form-control" id="system_criteria">
+                        <option id="system_criteria_2" value="2">Два</option>
+                        <option id="system_criteria_3" value="3">Три</option>
+{#                        <option id="system_criteria_4" value="4">Три (альтернативный метод)</option>#}
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-row mb-3">
+            <div class="col-2">
+                <label>Количество деталей:</label>
+            </div>
+            <div class="col-10">
+                <input class="form-control" id="event_cnt" placeholder="1">
+            </div>
+        </div>
+
+        <button id="btn-create-table" type="button" class="btn btn-primary w-100">Сформировать таблицы</button>
+        <button id="btn-calculate" type="button" class="btn btn-primary w-100 mt-3 mb-3">Рассчитать</button>
+
+    </div>
+
+    <div class="mt-5 w-100">
+        <div class="h4">Исходные данные</div>
+
+        <table id="work-table" class="table table-striped w-100">
+            <thead>
+            <tr class="text-center">
+                <th scope="col" class="align-middle">Деталь</th>
+                <th scope="col" class="align-middle">Т1</th>
+                <th scope="col" class="align-middle">Т2</th>
+                <th scope="col" class="align-middle">Т3</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="text-center">
+                <td><input type="text" disabled class="form-control text-center" placeholder="Деталь 1"></td>
+                <td><input class="form-control text-center" placeholder="0"></td>
+                <td><input class="form-control text-center" placeholder="0"></td>
+                <td><input class="form-control text-center" disabled placeholder="0"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="mt-5 w-100 h4">Результат оптимизации:</div>
+    <div class="mt-3 w-100">
+        <div class="h4">Информация о деталях:</div>
+
+        <table id="result-table-events" class="table table-striped w-100">
+            <thead>
+            <tr class="text-center">
+                <th scope="col" class="align-middle">Деталь</th>
+                <th scope="col" class="align-middle">Т1</th>
+                <th scope="col" class="align-middle">Т2</th>
+                <th scope="col" class="align-middle">Т3</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="text-center">
+                <td><input disabled type="text" class="form-control text-center" placeholder="Деталь 1"></td>
+                <td><input disabled class="form-control text-center" placeholder="0"></td>
+                <td><input disabled class="form-control text-center" placeholder="0"></td>
+                <td><input disabled class="form-control text-center" placeholder="-"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="mt-3 w-100">
+        <div class="h4">Параметры работ:</div>
+
+        <table id="result-table-work" class="table table-striped w-100">
+            <thead>
+            <tr class="text-center">
+            <tr class="text-center">
+                <th scope="col" class="align-middle">Оптимизация</th>
+                <th scope="col" class="align-middle">Т1</th>
+                <th scope="col" class="align-middle">Т2</th>
+                <th scope="col" class="align-middle">Т3</th>
+            </tr>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="text-center">
+                <td><input disabled type="text" class="form-control text-center" placeholder="Время простоя после"></td>
+                <td><input disabled class="form-control text-center" placeholder="0"></td>
+                <td><input disabled class="form-control text-center" placeholder="0"></td>
+                <td><input disabled class="form-control text-center" placeholder="0"></td>
+            </tr>
+
+            <tr class="text-center">
+                <td><input disabled type="text" class="form-control text-center" placeholder="Время работы после"></td>
+                <td><input disabled class="form-control text-center" placeholder="0"></td>
+                <td><input disabled class="form-control text-center" placeholder="0"></td>
+                <td><input disabled class="form-control text-center" placeholder="0"></td>
+            </tr>
+
+            <tr class="text-center">
+                <td><input disabled type="text" class="form-control text-center" placeholder="Время простоя до"></td>
+                <td><input disabled class="form-control text-center" placeholder="0"></td>
+                <td><input disabled class="form-control text-center" placeholder="0"></td>
+                <td><input disabled class="form-control text-center" placeholder="0"></td>
+            </tr>
+
+            <tr class="text-center">
+                <td><input disabled type="text" class="form-control text-center" placeholder="Время работы до"></td>
+                <td><input disabled class="form-control text-center" placeholder="0"></td>
+                <td><input disabled class="form-control text-center" placeholder="0"></td>
+                <td><input disabled class="form-control text-center" placeholder="0"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="mt-3 w-100">
+        <div class="h4">Диаграмма Ганта:</div>
+
+        <div id="gantt"></div>
+    </div>
+
+</div>
+</body>
+</html>
