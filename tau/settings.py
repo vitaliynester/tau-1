@@ -40,7 +40,8 @@ INSTALLED_APPS = [
 
     'lab1_pvv',
     'lab2_pvv',
-    'lab3_pvv'
+    'lab3_pvv',
+    'lab4_pvv'
 ]
 
 MIDDLEWARE = [
